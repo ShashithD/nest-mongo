@@ -7,12 +7,15 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './schemas/book.schemas';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('books')
 export class BookController {
@@ -24,11 +27,13 @@ export class BookController {
   }
 
   @Post()
+  @UseGuards(AuthGuard())
   async createBook(
     @Body()
     book: CreateBookDto,
+    @Req() req,
   ): Promise<Book> {
-    return this.bookservice.create(book);
+    return this.bookservice.create(book, req.user);
   }
 
   @Get(':id')
@@ -37,6 +42,15 @@ export class BookController {
     id: string,
   ): Promise<Book> {
     return this.bookservice.findById(id);
+  }
+
+  @Get('all/prices')
+  async getBookPrices(): Promise<any> {
+    const response = {
+      prices: [200, 300, 250, 453, 558, 244, 282],
+    };
+
+    return response;
   }
 
   @Put(':id')

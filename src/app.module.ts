@@ -5,6 +5,7 @@ import { BookModule } from './book/book.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { CreditCardModule } from './credit-card/credit-card.module';
 
 @Module({
   imports: [
@@ -15,8 +16,10 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forRoot(process.env.DB_URI),
     BookModule,
     AuthModule,
+    CreditCardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}

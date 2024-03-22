@@ -1,31 +1,35 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/user.schemas';
 
 export enum Category {
-    ADVENTURE = 'Adventure',
-    CALSSICS = 'Classics',
-    CRIME = 'Crime',
-    FANTASY = 'Fantasy',
+  ADVENTURE = 'Adventure',
+  CALSSICS = 'Classics',
+  CRIME = 'Crime',
+  FANTASY = 'Fantasy',
 }
 
 @Schema({
-    timestamps: true
+  timestamps: true,
 })
-
 export class Book {
-    @Prop()
-    title: string;
+  @Prop()
+  title: string;
 
-    @Prop()
-    description: string;
+  @Prop()
+  description: string;
 
-    @Prop()
-    author: string;
+  @Prop()
+  author: string;
 
-    @Prop()
-    price: number;
+  @Prop()
+  price: number;
 
-    @Prop()
-    category: Category;
+  @Prop()
+  category: Category;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
 }
 
-export const BookSchema = SchemaFactory.createForClass(Book)
+export const BookSchema = SchemaFactory.createForClass(Book);
